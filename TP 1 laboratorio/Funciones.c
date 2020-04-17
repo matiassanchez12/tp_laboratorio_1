@@ -57,7 +57,7 @@ void informarResultados(float num1,float num2, float rSum, float rRest, float rD
 
     printf("\n\t d) El resultado de %.2f * %.2f es: %.2f", num1, num2, rMult);
 
-    if((rFact1 < 0) || (rFact2 < 0))
+    if((num1 < 0 || num1 >= 32) || (num2 < 0 || num2 >= 32))
     {
         printf("\n \t No se pudo calcular factorial. Ingresar numeros enteros mayores a 0 y menores a 32 para esta operacion.");
     }
