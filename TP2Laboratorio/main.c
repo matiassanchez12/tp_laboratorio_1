@@ -8,13 +8,13 @@
 int main()
 {
     int ID = 0;
-    int flag = 1;
+    int flag = 0;
     int option;
     Employee listEmployees[EMPLOYEE_QUANTITY];
 
     if(initEmployees(listEmployees, EMPLOYEE_QUANTITY))
     {
-        front_hardcodeEmployees(listEmployees, EMPLOYEE_QUANTITY);
+        //front_hardcodeEmployees(listEmployees, EMPLOYEE_QUANTITY);
         do
         {
             if(front_mainMenu(&option))
