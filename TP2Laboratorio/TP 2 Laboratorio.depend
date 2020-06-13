@@ -32,3 +32,36 @@
 1589583672 source:c:\users\matukhan\desktop\tp2laboratorio\utn.c
 	"utn.h"
 
+1589584642 source:c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp2laboratorio\arrayemployees.c
+	"ArrayEmployees.h"
+
+1589580777 c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp2laboratorio\arrayemployees.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"utn.h"
+
+1589580945 c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp2laboratorio\utn.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1589585865 source:c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp2laboratorio\front.c
+	"front.h"
+
+1589580759 c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp2laboratorio\front.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"utn.h"
+	"ArrayEmployees.h"
+
+1589594669 source:c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp2laboratorio\main.c
+	<stdio.h>
+	<stdlib.h>
+	"front.h"
+	"utn.h"
+
+1589583672 source:c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp2laboratorio\utn.c
+	"utn.h"
+

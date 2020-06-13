@@ -61,16 +61,19 @@ int controller_addEmployee(LinkedList* pArrayListEmployee, int lastId)
     int retorno = -1;
     Employee auxEmployee;
     Employee* pAuxEmployee;
-    printf("\nALTA DE EMPLEADO\n");
+    system("cls");
+    printf("------------------------------");
+    printf("\n|Seccion de alta a un empleado|\n");
+    printf("------------------------------\n\n- A continuacion ingrese los datos del empleado..\n\n");
     if(pArrayListEmployee != NULL)
     {
         retorno = 0;
-        if(utn_getString(auxEmployee.nombre,NOMBRE_LEN,"Ingresar un nombre: ", "Error. Solo letras.\n", 3)
-                && utn_getNumber(&auxEmployee.sueldo, "Ingresar sueldo: ", "Error, solo numeros.\n", 0, 10000000, 3)
-                && utn_getNumber(&auxEmployee.horasTrabajadas, "Ingresar horas trabajadas: ", "Error, solo numeros.\n", 0, 10000, 3))
+        if(utn_getString(auxEmployee.name,NAME_LEN,"->Nombre: ", "Error. Solo letras.\n", 3)
+                && utn_getNumberFloat(&auxEmployee.salary, "->Salario: ", "Error, solo numeros.\n", 0, 10000000, 3)
+                && utn_getNumber(&auxEmployee.hoursWorked, "->Horas trabajadas: ", "Error, solo numeros.\n", 0, 10000000, 3))
         {
             auxEmployee.id = lastId + 1;
-            pAuxEmployee = employee_newParametrosBin(auxEmployee.id, auxEmployee.nombre,auxEmployee.horasTrabajadas,auxEmployee.sueldo);
+            pAuxEmployee = employee_newParametersBin(auxEmployee.id, auxEmployee.name,auxEmployee.hoursWorked,auxEmployee.salary);
             if(pAuxEmployee != NULL)
             {
                 if(!ll_add(pArrayListEmployee, pAuxEmployee))
@@ -79,10 +82,6 @@ int controller_addEmployee(LinkedList* pArrayListEmployee, int lastId)
                 }
             }
         }
-    }
-    else
-    {
-        printf("\n* Atencion!: No se cargo la lista de empleados.\n* Para cargar la lista elija la opcion [1] para modo TXT o [2] para modo BIN del menu principal.\n\n");
     }
     return retorno;
 }
@@ -98,15 +97,14 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
 {
     int retorno = -1;
     Employee* pEmployeeAux;
-    char confirm;
     int lengthArray;
     int i;
     int idEmployee;
     int idUsser;
     lengthArray = ll_len(pArrayListEmployee);
-    printf("\n== Menu de modificaciones == ");
+    printf("\n\n[?] Que empleado desea modificar ? \n");
     if(pArrayListEmployee != NULL && lengthArray > 0 &&
-            utn_getNumber(&idUsser, "\n\nIngresar el id del empleado: ", "Error, ingresar solo numeros.",0,200000, 5))
+            utn_getNumber(&idUsser, "\nIngresar el ID: ", "Error, ingresar solo numeros.",0,200000, 5))
     {
         for(i = 0; i < lengthArray; i++)
         {
@@ -116,20 +114,21 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
                 if(!employee_getId(pEmployeeAux, &idEmployee) && idEmployee == idUsser)
                 {
                     retorno = 0;
-                    printf("\nEmpleado encontrado!");
+                    printf("\n----------------------");
+                    printf("\n|Empleado encontrado!|\n");
+                    printf("----------------------\n");
                     if(!employee_modifyEmployee(pEmployeeAux))
                     {
-                        printf("\n- Seguro desea modificar los datos del empleado de ID ' %d ' ? [s] o [n].\n", idEmployee);
-                        if(utn_getOnlyTwoChars(&confirm, "\n Ingresar una opcion: ", "Error, solo [s] o [n].", 's', 'n', 3) &&
-                                confirm == 's')
-                        {
-                            retorno = 1;
-                            break;
-                        }
+                        retorno = 1;
+                        break;
                     }
                 }
             }
         }
+    }
+    else
+    {
+        printf("\n* Atencion!: No se cargo la lista de empleados.\n* Para cargar la lista elija la opcion [1] para modo TXT o [2] para modo BIN del menu principal.\n\n");
     }
     return retorno;
 }
@@ -153,33 +152,36 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
     int idEmployee;
     int idUsser;
     lengthArray = ll_len(pArrayListEmployee);
-    if(pArrayListEmployee != NULL && lengthArray > 0 &&
-            utn_getNumber(&idUsser, "Ingresar el id del empleado: ", "Error, ingresar solo numeros.",0,200000, 5))
+    if(pArrayListEmployee != NULL && lengthArray > 0)
     {
-        for(i = 0; i < lengthArray; i++)
+        printf("\n[?] Que empleado desea dar de baja ? \n");
+        if( utn_getNumber(&idUsser, "\n- Ingresar el ID: ", "Error, ingresar solo numeros.",0,200000, 5))
         {
-            pEmployeeAux = ll_get(pArrayListEmployee, i);
-            if(pEmployeeAux != NULL)
+            for(i = 0; i < lengthArray; i++)
             {
-                if(!employee_getId(pEmployeeAux, &idEmployee) && idEmployee == idUsser)
+                pEmployeeAux = ll_get(pArrayListEmployee, i);
+                if(pEmployeeAux != NULL)
                 {
-                    retorno = 0;
-                    printf("\nSeguro desea eliminar al empleado de ID ' %d ' ? [s] o [n].\n", idEmployee);
-                    if(utn_getOnlyTwoChars(&confirm, "\nSeleccione una opcion: ", "Error, solo [s] o [n].", 's', 'n', 3) &&
-                            confirm == 's' && !ll_remove(pArrayListEmployee, i))
+                    if(!employee_getId(pEmployeeAux, &idEmployee) && idEmployee == idUsser)
                     {
-                        retorno = 1;
-                        break;
+                        retorno = 0;
+                        printf("----------------------\n|Empleado encontrado!|\n----------------------");
+                        printf("\nSeguro desea eliminar al empleado de ID ' %d ' ? [s] o [n].\n", idEmployee);
+                        if(utn_getOnlyTwoChars(&confirm, "\nSeleccione una opcion: ", "Error, solo [s] o [n].", 's', 'n', 3) &&
+                                confirm == 's' && !ll_remove(pArrayListEmployee, i))
+                        {
+                            retorno = 1;
+                            break;
+                        }
                     }
                 }
             }
         }
     }
-    ///COMPROBAR SI ES NECESARIO ESTE IF
-    /*if(ll_len(pArrayListEmployee) == 0 && !ll_deleteLinkedList(pArrayListEmployee))
+    else
     {
-        printf("El listado de empleado fue eliminado.");
-    }*/
+        printf("\n* Atencion!: No se cargo la lista de empleados.\n* Para cargar la lista elija la opcion [1] para modo TXT o [2] para modo BIN del menu principal.\n\n");
+    }
     return retorno;
 }
 
@@ -199,7 +201,11 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
     lenArray = ll_len(pArrayListEmployee);
     if(pArrayListEmployee != NULL && lenArray > 0)
     {
-        printf("\n-----LISTA ALUMNOS-----\n");
+        printf("\n\t\t   ************************\n\t\t   **--------------------**");
+        printf("\n\t\t   **|Lista de empleados|**\n");
+        printf("\t\t   **--------------------**\n\t\t   ************************\n");
+        printf("  ---------------------------------------------------------\n");
+        printf("  | ID   |\tNOMBRE\t     |HORAS TRABAJADAS|\t  SALARIO |\n");
         for(i=0; i<lenArray; i++)
         {
             pAuxEmployee = (Employee*) ll_get(pArrayListEmployee, i);
@@ -208,6 +214,11 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
                 retorno = 0;
             }
         }
+        printf("  ---------------------------------------------------------\n");
+    }
+    else
+    {
+        printf("\n* Atencion!: No se cargo la lista de empleados.\n* Para cargar la lista elija la opcion [1] para modo TXT o [2] para modo BIN del menu principal.\n\n");
     }
     return retorno;
 }
@@ -224,11 +235,18 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
     int retorno = -1;
     int order;
     int (*pFunctionCriterio)(void*, void*);
-    printf("Elija el tipo de orden del listado:\n[1] Indica orden ascendente\n[0] Indica orden descendente\n");
-    if(pArrayListEmployee != NULL && utn_getNumber(&order, "\nIngresar una opcion: ", "Error, solo [1] o [0].", 0, 1, 3))
+    system("cls");
+    printf("--------------------------");
+    printf("\n|Seccion de ordenamientos|\n");
+    printf("--------------------------\n\n");
+    printf("Seleccionar el tipo de orden del listado:\n[1] Orden ascendente\n[0] Orden descendente\n");
+    if(pArrayListEmployee != NULL && utn_getNumber(&order, "\n- Ingresar una opcion: ", "Error, solo [1] o [0].", 0, 1, 3))
     {
-       pFunctionCriterio = employee_optionCompareForSort();
-        if(pFunctionCriterio != NULL && !ll_sort(pArrayListEmployee, pFunctionCriterio, order))
+        pFunctionCriterio = employee_optionCompareForSort();
+        printf("\n -------------------------------------------------");
+        printf("\n |Ordenando el listado.. solo tomara unos segundos|\n");
+        printf(" ----------------------------------------------------\n");
+        if(!ll_sort(pArrayListEmployee, pFunctionCriterio, order) && pFunctionCriterio != NULL)
         {
             retorno = 0;
         }
@@ -259,18 +277,18 @@ int controller_saveAsText(char* path, LinkedList* pArrayListEmployee)
         if(fileP != NULL)
         {
             retorno = 0;
-            fprintf(fileP,"id,nombre,horasTrabajadas,sueldo\n");
+            fprintf(fileP,"id,nombre,horasTrabajadas,salary\n");
             for(i=0; i<lenArray; i++)
             {
                 pEmployeeAux = ll_get(pArrayListEmployee, i);
                 if(pEmployeeAux != NULL)
                 {
-                    if(!employee_getHorasTrabajadas(pEmployeeAux, &employeeAux.horasTrabajadas) &&
+                    if(!employee_getHoursWorked(pEmployeeAux, &employeeAux.hoursWorked) &&
                             !employee_getId(pEmployeeAux, &employeeAux.id) &&
-                            !employee_getNombre(pEmployeeAux, employeeAux.nombre) &&
-                            !employee_getSueldo(pEmployeeAux, &employeeAux.sueldo))
+                            !employee_getName(pEmployeeAux, employeeAux.name) &&
+                            !employee_getSalary(pEmployeeAux, &employeeAux.salary))
                     {
-                        fprintf(fileP,"%d,%s,%d,%d\n",employeeAux.id, employeeAux.nombre, employeeAux.horasTrabajadas, employeeAux.sueldo);
+                        fprintf(fileP,"%d,%s,%d,%f\n",employeeAux.id, employeeAux.name, employeeAux.hoursWorked, employeeAux.salary);
                     }
                 }
             }

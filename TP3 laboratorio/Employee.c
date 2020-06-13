@@ -9,7 +9,7 @@ static int isString(char* str)
     int i=0;
     while(str[i] != '\0')
     {
-        if((str[i] != ' ') && (str[i] < 'a' || str[i] > 'z') && (str[i] < 'A' || str[i] > 'Z'))
+        if((str[i] < 'a' || str[i] > 'z') && (str[i] < 'A' || str[i] > 'Z'))
         {
             ret = 0;
             break;
@@ -35,16 +35,16 @@ Employee* employee_new()
     return (Employee*) malloc(sizeof(Employee));
 }
 
-Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr,char* sueldoStr)
+Employee* employee_newParameters(char* idStr,char* nameStr,char* hoursWorkedStr,char* salaryStr)
 {
     Employee* this = NULL;
     this = employee_new();
-    if(this != NULL && idStr != NULL && nombreStr != NULL && horasTrabajadasStr != NULL && sueldoStr != NULL)
+    if(this != NULL && idStr != NULL && nameStr != NULL && hoursWorkedStr != NULL && salaryStr != NULL)
     {
-        if(	employee_setNombre(this,nombreStr) == -1 ||
-                employee_setSueldo(this,atoi(sueldoStr)) == -1 ||
+        if(	employee_setName(this,nameStr) == -1 ||
+                employee_setSalary(this,atof(salaryStr)) == -1 ||
                 employee_setId(this,atoi(idStr)) == -1 ||
-                employee_setHorasTrabajadas(this, atoi(horasTrabajadasStr)) == -1)
+                employee_setHoursWorked(this, atoi(hoursWorkedStr)) == -1)
         {
             if(!employee_delete(this))
             {
@@ -55,16 +55,16 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
     return this;
 }
 
-Employee* employee_newParametrosBin(int id,char* nombre,int horasTrabajadas,int sueldo)
+Employee* employee_newParametersBin(int id,char* name,int hoursWorked,float salary)
 {
     Employee* this = NULL;
     this = employee_new();
-    if(this != NULL && nombre != NULL)
+    if(this != NULL && name != NULL)
     {
-        if(employee_setNombre(this,nombre) == -1 ||
-                employee_setSueldo(this,sueldo) == -1 ||
+        if(employee_setName(this,name) == -1 ||
+                employee_setSalary(this,salary) == -1 ||
                 employee_setId(this,id) == -1 ||
-                employee_setHorasTrabajadas(this, horasTrabajadas) == -1)
+                employee_setHoursWorked(this, hoursWorked) == -1)
         {
             if(!employee_delete(this))
             {
@@ -75,13 +75,13 @@ Employee* employee_newParametrosBin(int id,char* nombre,int horasTrabajadas,int 
     return this;
 }
 
-int employee_add(Employee* this, int salary, char* name, int id, int hoursWorked)
+int employee_add(Employee* this, float salary, char* name, int id, int hoursWorked)
 {
     int retorno = -1;
     Employee* pAuxEmployee;
     if(this != NULL && name != NULL)
     {
-        pAuxEmployee = employee_newParametrosBin(id, name, hoursWorked, salary);
+        pAuxEmployee = employee_newParametersBin(id, name, hoursWorked, salary);
         if(pAuxEmployee != NULL)
         {
             retorno = 0;
@@ -95,6 +95,7 @@ int employee_modifyEmployee(Employee* this)
 {
     int retorno = -1;
     Employee auxEmployee;
+    char confirm;
     int option;
     if(this != NULL)
     {
@@ -104,27 +105,33 @@ int employee_modifyEmployee(Employee* this)
             switch(option)
             {
             case 1:
-                if(utn_getString(auxEmployee.nombre,NOMBRE_LEN,"Ingresar un nombre: ", "Error. Solo letras.\n", 3))
+                if(utn_getString(auxEmployee.name,NAME_LEN,"Ingresar nuevo nombre: ", "Error. Solo letras.\n", 3))
                 {
-                    if(!employee_setNombre(this, auxEmployee.nombre))
+                    printf("\n- Seguro desea modificar los datos del empleado ? [s] o [n].\n");
+                    if(utn_getOnlyTwoChars(&confirm, "\n Ingresar una opcion: ", "Error, solo [s] o [n].", 's', 'n', 3) &&
+                            confirm == 's' && !employee_setName(this, auxEmployee.name))
                     {
                         retorno = 0;
                     }
                 }
                 break;
             case 2:
-                if(utn_getNumber(&auxEmployee.sueldo, "Ingresar sueldo: ", "Error, solo numeros.\n", 0, 10000000, 3))
+                if(utn_getNumberFloat(&auxEmployee.salary, "Ingresar nuevo salario: ", "Error, solo numeros.\n", 0, 10000000, 3))
                 {
-                    if(!employee_setSueldo(this, auxEmployee.sueldo))
+                    printf("\n- Seguro desea modificar los datos del empleado ? [s] o [n].\n");
+                    if(utn_getOnlyTwoChars(&confirm, "\n Ingresar una opcion: ", "Error, solo [s] o [n].", 's', 'n', 3) &&
+                            confirm == 's' && !employee_setSalary(this, auxEmployee.salary))
                     {
                         retorno = 0;
                     }
                 }
                 break;
             case 3:
-                if(utn_getNumber(&auxEmployee.horasTrabajadas, "Ingresar horas trabajadas: ", "Error, solo numeros.\n", 0, 10000, 3))
+                if(utn_getNumber(&auxEmployee.hoursWorked, "Ingresar nueva cantidad de horas trabajadas: ", "Error, solo numeros.\n", 0, 10000, 3))
                 {
-                    if(!employee_setHorasTrabajadas(this, auxEmployee.horasTrabajadas))
+                    printf("\n- Seguro desea modificar los datos del empleado de ID ' %d ' ? [s] o [n].\n", this->id);
+                    if(utn_getOnlyTwoChars(&confirm, "\n Ingresar una opcion: ", "Error, solo [s] o [n].", 's', 'n', 3) &&
+                            confirm == 's' && !employee_setHoursWorked(this, auxEmployee.hoursWorked))
                     {
                         retorno = 0;
                     }
@@ -139,48 +146,49 @@ int employee_modifyEmployee(Employee* this)
     return retorno;
 }
 
-int employee_setNombre(Employee* this,char* nombre)
+int employee_setName(Employee* this,char* name)
 {
     int retorno = -1;
-    if(this != NULL && nombre != NULL)
+    if(this != NULL && name != NULL)
     {
-        if(isString(nombre))
+        if(isString(name))
         {
             retorno = 0;
-            strcpy(this->nombre,nombre);
+            strcpy(this->name,name);
         }
     }
     return retorno;
 }
 
-int employee_getNombre(Employee* this,char* nombre)
+int employee_getName(Employee* this,char* name)
 {
     int retorno = -1;
-    if(this != NULL && nombre != NULL)
+    if(this != NULL && name != NULL)
     {
         retorno = 0;
-        strcpy(nombre,this->nombre);
+        strcpy(name,this->name);
     }
     return retorno;
 }
 
-int employee_setSueldo(Employee* this,int sueldo)
+int employee_setSalary(Employee* this,float salary)
 {
     int retorno = -1;
-    if(this != NULL && sueldo >= 0)
+    if(this != NULL && salary >= 0)
     {
         retorno = 0;
-        this->sueldo = sueldo;
+        this->salary = salary;
     }
     return retorno;
 }
-int employee_getSueldo(Employee* this,int* sueldo)
+
+int employee_getSalary(Employee* this,float* salary)
 {
     int retorno = -1;
-    if(this != NULL && sueldo != NULL)
+    if(this != NULL && salary != NULL)
     {
         retorno = 0;
-        *sueldo = this->sueldo;
+        *salary = this->salary;
     }
     return retorno;
 }
@@ -207,23 +215,23 @@ int employee_getId(Employee* this,int* id)
     return retorno;
 }
 
-int employee_setHorasTrabajadas(Employee* this,int horasTrabajadas)
+int employee_setHoursWorked(Employee* this,int hoursWorked)
 {
     int retorno = -1;
-    if(this != NULL && horasTrabajadas >= 0)
+    if(this != NULL && hoursWorked >= 0)
     {
         retorno = 0;
-        this->horasTrabajadas = horasTrabajadas;
+        this->hoursWorked = hoursWorked;
     }
     return retorno;
 }
-int employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas)
+int employee_getHoursWorked(Employee* this,int* hoursWorked)
 {
     int retorno = -1;
-    if(this != NULL && horasTrabajadas != NULL)
+    if(this != NULL && hoursWorked != NULL)
     {
         retorno = 0;
-        *horasTrabajadas = this->horasTrabajadas;
+        *hoursWorked = this->hoursWorked;
     }
     return retorno;
 }
@@ -234,8 +242,8 @@ void* employee_optionCompareForSort(void)
     int (*pFunctionCompare)(void*, void*);
     int option;
 
-    printf("\nElija el criterio de ordenamiento: \n[1] ID\n[2] Nombre\n[3] Horas Trabajadas\n[4] Salario");
-    if(utn_getNumber(&option, "\n\nIngresar una opcion: ", "Error. Fuera de rango.", 1, 4, 3))
+    printf("\nSeleccionar el criterio de ordenamiento: \n[1] ID\n[2] name");
+    if(utn_getNumber(&option, "\n\n- Ingresar una opcion: ", "Error. Fuera de rango.", 1, 2, 3))
     {
         switch(option)
         {
@@ -253,20 +261,6 @@ void* employee_optionCompareForSort(void)
                 retorno = pFunctionCompare;
             }
             break;
-        case 3:
-            pFunctionCompare = employee_CompareBySalary;
-            if(pFunctionCompare != NULL)
-            {
-                retorno = pFunctionCompare;
-            }
-            break;
-        case 4:
-            pFunctionCompare = employee_CompareByHoursWorked;
-            if(pFunctionCompare != NULL)
-            {
-                retorno = pFunctionCompare;
-            }
-            break;
         }
     }
     return retorno;
@@ -275,13 +269,13 @@ void* employee_optionCompareForSort(void)
 int employee_CompareByName(void* employee1, void* employee2)
 {
     int retorno;
-    char name[NOMBRE_LEN];
-    char name1[NOMBRE_LEN];
+    char name[NAME_LEN];
+    char name1[NAME_LEN];
 
     Employee* emp1 = (Employee*) employee1;
     Employee* emp2 = (Employee*) employee2;
 
-    if(!employee_getNombre(emp1, name) && !employee_getNombre(emp2, name1))
+    if(!employee_getName(emp1, name) && !employee_getName(emp2, name1))
     {
         retorno = strcmpi(name, name1);
     }
@@ -316,80 +310,24 @@ int employee_CompareById(void* employee1, void* employee2)
     return retorno;
 }
 
-int employee_CompareByHoursWorked(void* employee1, void* employee2)
-{
-    int retorno;
-    int hoursWorked;
-    int hoursWorked1;
-    Employee* emp1 = (Employee*) employee1;
-    Employee* emp2 = (Employee*) employee2;
-    if(!employee_getHorasTrabajadas(emp1, &hoursWorked) && !employee_getHorasTrabajadas(emp2, &hoursWorked1))
-    {
-        if(hoursWorked > hoursWorked1)
-        {
-            retorno = 1;
-        }
-        else
-        {
-            if(hoursWorked < hoursWorked1)
-            {
-                retorno = -1;
-            }
-            else
-            {
-                retorno = 0;
-            }
-        }
-    }
-    return retorno;
-}
-
-int employee_CompareBySalary(void* employee1, void* employee2)
-{
-    int retorno;
-    int salary;
-    int salary1;
-    Employee* emp1 = (Employee*) employee1;
-    Employee* emp2 = (Employee*) employee2;
-    if(!employee_getSueldo(emp1, &salary) && !employee_getSueldo(emp2, &salary1))
-    {
-        if(salary > salary1)
-        {
-            retorno = 1;
-        }
-        else
-        {
-            if(salary < salary1)
-            {
-                retorno = -1;
-            }
-            else
-            {
-                retorno = 0;
-            }
-        }
-    }
-    return retorno;
-}
-
-
 int employee_printArray(Employee* this,int lenght)
 {
     int retorno=-1;
     int auxId;
-    char auxNombre[NOMBRE_LEN];
-    int auxHorasTrabajadas;
-    int auxSalario;
+    char auxName[NAME_LEN];
+    int auxHoursWorked;
+    float auxSalary;
 
     if(this != NULL && lenght > 0)
     {
         if(!employee_getId(this, &auxId)
-                && !employee_getNombre(this, auxNombre)
-                && !employee_getHorasTrabajadas(this, &auxHorasTrabajadas)
-                && !employee_getSueldo(this, &auxSalario))
+                && !employee_getName(this, auxName)
+                && !employee_getHoursWorked(this, &auxHoursWorked)
+                && !employee_getSalary(this, &auxSalary))
         {
             retorno = 0;
-            printf("ID: %d - Nombre: %s- Horas Trabajadas: %d - Sueldo: %d\n", auxId,auxNombre,auxHorasTrabajadas,auxSalario);
+            printf("  ---------------------------------------------------------\n");
+            printf("  | %4d |     %13s |     %8d   |  %.2f |\n", auxId,auxName,auxHoursWorked,auxSalary);
         }
     }
     return retorno;

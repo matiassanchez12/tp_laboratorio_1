@@ -1,31 +1,31 @@
 #ifndef employee_H_INCLUDED
 #define employee_H_INCLUDED
 #include "utn.h"
-#define NOMBRE_LEN 50
+#define NAME_LEN 50
 
 typedef struct
 {
     int id;
-    char nombre[NOMBRE_LEN];
-    int horasTrabajadas;
-    int sueldo;
+    char name[NAME_LEN];
+    int hoursWorked;
+    float salary;
 }Employee;
 ///PRINCIPALES
 int employee_printArray(Employee* this,int lenght);
-int employee_add(Employee* this, int salary, char* name, int id, int hoursWorked);
+int employee_add(Employee* this, float salary, char* name, int id, int hoursWorked);
 ///SETS Y GETS
 int employee_setId(Employee* this,int id);
 int employee_getId(Employee* this,int* id);
-int employee_setNombre(Employee* this,char* nombre);
-int employee_getNombre(Employee* this,char* nombre);
-int employee_setHorasTrabajadas(Employee* this,int horasTrabajadas);
-int employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas);
-int employee_setSueldo(Employee* this,int sueldo);
-int employee_getSueldo(Employee* this,int* sueldo);
+int employee_setName(Employee* this,char* name);
+int employee_getName(Employee* this,char* name);
+int employee_setHoursWorked(Employee* this,int hoursWorked);
+int employee_getHoursWorked(Employee* this,int* hoursWorked);
+int employee_setSalary(Employee* this,float salary);
+int employee_getSalary(Employee* this,float* salary);
 ///COMPLEMENTARIAS
 Employee* employee_new();
-Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr,char* sueldoStr);
-Employee* employee_newParametrosBin(int id,char* nombre,int horasTrabajadas,int sueldo);
+Employee* employee_newParameters(char* idStr,char* nameStr,char* hoursWorkedStr,char* salaryStr);
+Employee* employee_newParametersBin(int id,char* name,int hoursWorked,float salary);
 int employee_modifyEmployee(Employee* this);
 int employee_delete(Employee* this);
 void* employee_optionCompareForSort(void);

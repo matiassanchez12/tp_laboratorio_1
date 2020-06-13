@@ -45,16 +45,57 @@ int gen_mainMenu(int* option)
  */
 void gen_checkReturnWithIf(int function, char* msgAllRight, char* msgError)
 {
-    if(function)
+        if(!function)
+        {
+            printf("%s", msgAllRight);
+        }
+        else
+        {
+            printf("%s", msgError);
+        }
+}
+
+void gen_checkCorrectAdd(int addOk)
+{
+  if(addOk > 0)
+  {
+       printf("\t-----------------------------\n\t|Empleado cargado con exito!|\n\t-----------------------------\n\n");
+  }
+  else
+  {
+      printf("\n- Error!: Intentos agotados. Volviendo al menu principal..\n\n");
+  }
+}
+
+int gen_checkLengthLinkedList(int lengthLl)
+{
+    int retorno = 0;
+    if(lengthLl > 0)
+    {
+        retorno = 1;
+    }
+    else
+    {
+        system("cls");
+        printf("  ------------ \n  | Atencion!|\n  ------------");
+        printf("\n* No se cargo la lista de empleados.\n* Para cargar la lista seleccione las opciones [1] para cargar modo TXT, [2] para cargar modo BIN o [3] para carga MANUAL, del menu principal.\n\n");
+    }
+    return retorno;
+}
+
+void gen_checkCorrectLoadedOfEmployees(int loadOk, char* msgAllRight)
+{
+    if(loadOk > 0)
     {
         printf("%s", msgAllRight);
     }
     else
     {
-        printf("%s", msgError);
+        system("cls");
+        printf("  ------------ \n  | Atencion!|\n  ------------");
+        printf("\n* No se encontro el archivo solicitado.\n* Ingresar el nombre correcto de un archivo valido.\n\n");
     }
 }
-
 /** \brief Verifica el valor que retorna una funcion y imprime un mensaje por pantalla
  *
  * \param function int funcion a verificar su retorno
