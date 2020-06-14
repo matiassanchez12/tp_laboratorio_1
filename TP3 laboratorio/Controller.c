@@ -6,9 +6,9 @@
 #include "parser.h"
 /** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param path char* Puntero al nombre del archivo
+ * \param pArrayListEmployee LinkedList* Puntero a la lista enlazada
+ * \return int [-1] puntero a fileP es NULL o el puntero a la lista es NULL, [< 0] ultimo Id caso contrario.
  *
  */
 int controller_loadFromText(char* path, LinkedList* pArrayListEmployee)
@@ -28,9 +28,9 @@ int controller_loadFromText(char* path, LinkedList* pArrayListEmployee)
 }
 /** \brief Carga los datos de los empleados desde el archivo data.csv (modo binario).
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param path char* Puntero al nombre del archivo
+ * \param pArrayListEmployee LinkedList* Puntero a la lista enlazada
+ * \return int [-1] puntero a fileP es NULL o el puntero a la lista es NULL, [< 0] ultimo Id caso contrario.
  *
  */
 int controller_loadFromBinary(char* path, LinkedList* pArrayListEmployee)
@@ -51,9 +51,10 @@ int controller_loadFromBinary(char* path, LinkedList* pArrayListEmployee)
 
 /** \brief Alta de empleados
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param path char* Puntero al nombre del archivo
+ * \param pArrayListEmployee LinkedList* Puntero a la lista enlazada
+ * \param lastId int Ultimo id de la lista enlazada
+ * \return int [-1] si pArrayListEmployee es NULL, [0] Proceso cancelado(Intentos agotados), [ < 0] Ultimo Id caso de exito.
  *
  */
 int controller_addEmployee(LinkedList* pArrayListEmployee, int lastId)
@@ -88,9 +89,8 @@ int controller_addEmployee(LinkedList* pArrayListEmployee, int lastId)
 
 /** \brief Modificar datos de empleado
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param pArrayListEmployee LinkedList* Puntero a la lista enlazada
+ * \return int [-1] si pArrayListEmployee es NULL o Intentos agotados , [0] Proceso cancelado, [ < 0] Modificado con exito.
  *
  */
 int controller_editEmployee(LinkedList* pArrayListEmployee)
@@ -103,8 +103,7 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
     int idUsser;
     lengthArray = ll_len(pArrayListEmployee);
     printf("\n\n[?] Que empleado desea modificar ? \n");
-    if(pArrayListEmployee != NULL && lengthArray > 0 &&
-            utn_getNumber(&idUsser, "\nIngresar el ID: ", "Error, ingresar solo numeros.",0,200000, 5))
+    if(pArrayListEmployee != NULL && utn_getNumber(&idUsser, "\nIngresar el ID: ", "Error, ingresar solo numeros.",0,200000, 5))
     {
         for(i = 0; i < lengthArray; i++)
         {
@@ -126,22 +125,15 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
             }
         }
     }
-    else
-    {
-        printf("\n* Atencion!: No se cargo la lista de empleados.\n* Para cargar la lista elija la opcion [1] para modo TXT o [2] para modo BIN del menu principal.\n\n");
-    }
     return retorno;
 }
 
 /** \brief Baja de empleado
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param pArrayListEmployee LinkedList* Puntero a la lista enlazada
+ * \return int [-1] si pArrayListEmployee es NULL, [0] Proceso cancelado, [ < 0] Eliminado con exito.
  *
  */
-///-1 NO SE ENCONTRO AL EMPLEADO, 0 ENCONTRO AL EMPLEADO DEL ID, PERO LA ACCION FUE CANCELADA, 1 BORRADO EXITOSAMENTE
-
 int controller_removeEmployee(LinkedList* pArrayListEmployee)
 {
     int retorno = -1;
@@ -152,7 +144,7 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
     int idEmployee;
     int idUsser;
     lengthArray = ll_len(pArrayListEmployee);
-    if(pArrayListEmployee != NULL && lengthArray > 0)
+    if(pArrayListEmployee != NULL)
     {
         printf("\n[?] Que empleado desea dar de baja ? \n");
         if( utn_getNumber(&idUsser, "\n- Ingresar el ID: ", "Error, ingresar solo numeros.",0,200000, 5))
@@ -166,7 +158,7 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
                     {
                         retorno = 0;
                         printf("----------------------\n|Empleado encontrado!|\n----------------------");
-                        printf("\nSeguro desea eliminar al empleado de ID ' %d ' ? [s] o [n].\n", idEmployee);
+                        printf("\nSeguro desea eliminar al empleado con ID ' %d ' ? [s] o [n].\n", idEmployee);
                         if(utn_getOnlyTwoChars(&confirm, "\nSeleccione una opcion: ", "Error, solo [s] o [n].", 's', 'n', 3) &&
                                 confirm == 's' && !ll_remove(pArrayListEmployee, i))
                         {
@@ -178,28 +170,24 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
             }
         }
     }
-    else
-    {
-        printf("\n* Atencion!: No se cargo la lista de empleados.\n* Para cargar la lista elija la opcion [1] para modo TXT o [2] para modo BIN del menu principal.\n\n");
-    }
     return retorno;
 }
 
 /** \brief Listar empleados
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param pArrayListEmployee LinkedList* Puntero a la lista enlazada
+ * \return int [-1] si pArrayListEmployee es NULL, [0] Listado mostrado con exito.
  *
  */
 int controller_ListEmployee(LinkedList* pArrayListEmployee)
 {
+    system("cls");
     int retorno = -1;
     int lenArray;
     int i;
     Employee* pAuxEmployee;
     lenArray = ll_len(pArrayListEmployee);
-    if(pArrayListEmployee != NULL && lenArray > 0)
+    if(pArrayListEmployee != NULL)
     {
         printf("\n\t\t   ************************\n\t\t   **--------------------**");
         printf("\n\t\t   **|Lista de empleados|**\n");
@@ -216,18 +204,13 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
         }
         printf("  ---------------------------------------------------------\n");
     }
-    else
-    {
-        printf("\n* Atencion!: No se cargo la lista de empleados.\n* Para cargar la lista elija la opcion [1] para modo TXT o [2] para modo BIN del menu principal.\n\n");
-    }
     return retorno;
 }
 
 /** \brief Ordenar empleados
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param pArrayListEmployee LinkedList* Puntero a la lista enlazada
+ * \return int [-1] si pArrayListEmployee es NULL o Intentos agotados al ingresar una opcion, [0] Listado ordenado con exito.
  *
  */
 int controller_sortEmployee(LinkedList* pArrayListEmployee)
@@ -243,9 +226,9 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
     if(pArrayListEmployee != NULL && utn_getNumber(&order, "\n- Ingresar una opcion: ", "Error, solo [1] o [0].", 0, 1, 3))
     {
         pFunctionCriterio = employee_optionCompareForSort();
-        printf("\n -------------------------------------------------");
+        printf("\n --------------------------------------------------");
         printf("\n |Ordenando el listado.. solo tomara unos segundos|\n");
-        printf(" ----------------------------------------------------\n");
+        printf(" --------------------------------------------------\n");
         if(!ll_sort(pArrayListEmployee, pFunctionCriterio, order) && pFunctionCriterio != NULL)
         {
             retorno = 0;
@@ -256,9 +239,9 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
 
 /** \brief Guarda los datos de los empleados en el archivo data.csv (modo texto).
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param path char* Puntero al nombre del archivo
+ * \param pArrayListEmployee LinkedList* Puntero a la lista enlazada
+ * \return int [-1] puntero al nombre del archivo es NULL o el puntero a la lista es NULL, [ 0] se guardo con exito.
  *
  */
 
@@ -271,7 +254,7 @@ int controller_saveAsText(char* path, LinkedList* pArrayListEmployee)
     Employee employeeAux;
     Employee* pEmployeeAux;
     lenArray = ll_len(pArrayListEmployee);
-    if(path != NULL && pArrayListEmployee != NULL && lenArray > 0)
+    if(path != NULL && pArrayListEmployee != NULL)
     {
         fileP = fopen(path,"w");
         if(fileP != NULL)
@@ -300,9 +283,9 @@ int controller_saveAsText(char* path, LinkedList* pArrayListEmployee)
 
 /** \brief Guarda los datos de los empleados en el archivo data.csv (modo binario).
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param path char* Puntero al nombre del archivo
+ * \param pArrayListEmployee LinkedList* Puntero a la lista enlazada
+ * \return int [-1] puntero al nombre del archivo es NULL o el puntero a la lista es NULL, [ 0] se guardo con exito.
  *
  */
 int controller_saveAsBinary(char* path, LinkedList* pArrayListEmployee)
@@ -314,7 +297,7 @@ int controller_saveAsBinary(char* path, LinkedList* pArrayListEmployee)
     Employee* pAuxEmployee;
     FILE* fileP;
     lenArray = ll_len(pArrayListEmployee);
-    if(pArrayListEmployee != NULL && path != NULL && lenArray > 0)
+    if(pArrayListEmployee != NULL && path != NULL)
     {
         fileP = fopen(path,"wb");
         if(fileP != NULL)

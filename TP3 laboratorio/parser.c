@@ -3,6 +3,13 @@
 #include "LinkedList.h"
 #include "Employee.h"
 
+/** \brief Toma uno a uno los datos de los empleados
+ *
+ * \param pFile FILE* Puntero a un archivo
+ * \param pArrayListEmployee LinkedList* Puntero a la lista enlazada
+ * \return int [-1] si puntero a archivo o puntero a la lista son NULL, caso contrario retorna el ultimo ID
+ *
+ */
 int parser_EmployeeFromText(FILE* pFile, LinkedList* pArrayListEmployee)
 {
     int retorno = -1;
@@ -41,6 +48,13 @@ int parser_EmployeeFromText(FILE* pFile, LinkedList* pArrayListEmployee)
     return retorno;
 }
 
+/** \brief Toma uno a uno los datos de los empleados
+ *
+ * \param pFile FILE* Puntero a un archivo
+ * \param pArrayListEmployee LinkedList* Puntero a la lista enlazada
+ * \return int [-1] si puntero a archivo o puntero a la lista son NULL, caso contrario retorna el ultimo ID
+ *
+ */
 int parser_EmployeeFromBinary(FILE* pFile, LinkedList* pArrayListEmployee)
 {
     int retorno=-1;

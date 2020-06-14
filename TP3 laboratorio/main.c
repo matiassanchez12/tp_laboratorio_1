@@ -12,83 +12,73 @@ int main()
     LinkedList* listEmployees = ll_newLinkedList();
     int lastId = 0;
     int lengthLinkedList;
-    /**
-    *AGREGAR LA OPCION SALIR DE LOS MENU
-    *SI SE INGRESA POR SEGUNDA VEZ A LA OPCION 1 O 2, UTILIZAR EL LL DELETLINKEDLIST
-    *VALIDAR SI NO ENTRO A LA OPCION 1 O 2 MOSTRAR MENSAJE ERROR
-    *MIENTRAS NO HALLA ELEMENTOS EN EL LL NO PERMITIR INGRESO A OPCIONES 4 PARA ARRIBA
-    *COMENTARIOS
-    **/
     do
     {
         lengthLinkedList = ll_len(listEmployees);
-        if(lengthLinkedList != -1)
+        if(gen_mainMenu(&option))
         {
-            if(gen_mainMenu(&option))
+            switch(option)
             {
-                switch(option)
+            case 1:
+                lastId = controller_loadFromText("data.csv", listEmployees);
+                gen_checkCorrectLoadedOfEmployees(lastId, "\t-------------------------------------\n\t|Listado tipo TXT cargado con exito!|\n\t-------------------------------------\n\n");
+                break;
+            case 2:
+                lastId = controller_loadFromBinary("data.bin", listEmployees);
+                gen_checkCorrectLoadedOfEmployees(lastId, "\t-------------------------------------\n\t|Listado tipo BIN cargado con exito!|\n\t-------------------------------------\n\n");
+                break;
+            case 3:
+                lastId = controller_addEmployee(listEmployees, lastId);
+                gen_checkCorrectAdd(lastId);
+                break;
+            case 4:
+                if(gen_checkLengthLinkedList(lengthLinkedList))
                 {
-                case 1:
-                    lastId = controller_loadFromText("data.csv", listEmployees);
-                    gen_checkCorrectLoadedOfEmployees(lastId, "\t-------------------------------------\n\t|Listado tipo TXT cargado con exito!|\n\t-------------------------------------\n\n");
-                    break;
-                case 2:
-                    lastId = controller_loadFromBinary("data.bin", listEmployees);
-                    gen_checkCorrectLoadedOfEmployees(lastId, "\t-------------------------------------\n\t|Listado tipo BIN cargado con exito!|\n\t-------------------------------------\n\n");
-                    break;
-                case 3:
-                    lastId = controller_addEmployee(listEmployees, lastId);
-                    gen_checkCorrectAdd(lastId);
-                    break;
-                case 4:
-                    if(gen_checkLengthLinkedList(lengthLinkedList))
-                    {
-                        system("cls");
-                        printf("-------------------------------------------\n|Seccion para modificar datos de empleados|\n-------------------------------------------\n");
-                        controller_ListEmployee(listEmployees);
-                        gen_checkReturnWithSwitch(controller_editEmployee(listEmployees), "\t--------------------------------\n\t|Empleado modificado con exito!|\n\t--------------------------------\n\n", "\n- Operacion cancelada con exito!\n", "- No se encontro un empleado con ese ID!\n");
-                    }
-                    break;
-                case 5:
-                    if(gen_checkLengthLinkedList(lengthLinkedList))
-                    {
-                        system("cls");
-                        printf("--------------------------------------\n|Seccion para dar de baja un empleado|\n--------------------------------------\n");
-                        controller_ListEmployee(listEmployees);
-                        gen_checkReturnWithSwitch(controller_removeEmployee(listEmployees), "\t-----------------------------\n\t|Empleado borrado con exito!|\n\t-----------------------------\n\n", "\n- Operacion cancelada con exito!\n\n", "- No se encontro un empleado con ese ID!\n\n");
-                    }
-                    break;
-                case 6:
-                    if(gen_checkLengthLinkedList(lengthLinkedList))
-                    {
-                        gen_checkReturnWithIf(controller_ListEmployee(listEmployees), "\t------------------\n\t|Listado exitoso!|\n\t------------------\n\n", "Error.");
-                    }
-                    break;
-                case 7:
-                    if(gen_checkLengthLinkedList(lengthLinkedList))
-                    {
-                        gen_checkReturnWithIf(controller_sortEmployee(listEmployees), "\t-----------------------\n\t|Ordenamiento exitoso!|\n\t-----------------------\n\n", "\n- Error. No hay datos suficientes para hacer el ordenamiento solicitado.\n\n");
-                    }
-                    break;
-                case 8:
-                    if(gen_checkLengthLinkedList(lengthLinkedList))
-                    {
-                        gen_checkReturnWithIf(controller_saveAsText("data.csv", listEmployees), "\t-----------------------\n\t|Guardado TXT exitoso!|\n\t-----------------------\n\n", "\n- Error. No se encontraron datos.\n");
-                    }
-                    break;
-                case 9:
-                    if(gen_checkLengthLinkedList(lengthLinkedList))
-                    {
-                        gen_checkReturnWithIf(controller_saveAsBinary("data.bin", listEmployees), "\t-----------------------\n\t|Guardado BIN exitoso!|\n\t-----------------------\n\n", "\n- Error. No se encontraron datos.\n");
-                    }
-                    break;
-                case 10:
-                    ll_deleteLinkedList(listEmployees);
-                    printf("\nSaliendo del programa.. Hasta luego!\n");
+                    system("cls");
+                    printf("-------------------------------------------\n|Seccion para modificar datos de empleados|\n-------------------------------------------\n");
+                    controller_ListEmployee(listEmployees);
+                    gen_checkReturnWithSwitch(controller_editEmployee(listEmployees), "\t--------------------------------\n\t|Empleado modificado con exito!|\n\t--------------------------------\n\n", "\n- Operacion cancelada con exito!\n", "\n- No se encontro un empleado con ese ID!\n");
                 }
-                system("pause");
-                system("cls");
+                break;
+            case 5:
+                if(gen_checkLengthLinkedList(lengthLinkedList))
+                {
+                    system("cls");
+                    printf("--------------------------------------\n|Seccion para dar de baja un empleado|\n--------------------------------------\n");
+                    controller_ListEmployee(listEmployees);
+                    gen_checkReturnWithSwitch(controller_removeEmployee(listEmployees), "\t-----------------------------\n\t|Empleado borrado con exito!|\n\t-----------------------------\n\n", "\n- Operacion cancelada con exito!\n\n", "\n- No se encontro un empleado con ese ID!\n\n");
+                }
+                break;
+            case 6:
+                if(gen_checkLengthLinkedList(lengthLinkedList))
+                {
+                    gen_checkReturnWithIf(controller_ListEmployee(listEmployees), "\t--------------------\n\t|Listado con exito!|\n\t--------------------\n\n", "Error.");
+                }
+                break;
+            case 7:
+                if(gen_checkLengthLinkedList(lengthLinkedList))
+                {
+                    gen_checkReturnWithIf(controller_sortEmployee(listEmployees), "\t----------------------\n\t|Ordenado con exito!!|\n\t----------------------\n\n", "\n- Error. No hay datos suficientes para hacer el ordenamiento solicitado.\n\n");
+                }
+                break;
+            case 8:
+                if(gen_checkLengthLinkedList(lengthLinkedList))
+                {
+                    gen_checkReturnWithIf(controller_saveAsText("data.csv", listEmployees), "\t---------------------------\n\t|Guardado modo TXT exitoso!|\n\t---------------------------\n\n", "\n- Error. No se encontraron datos.\n");
+                }
+                break;
+            case 9:
+                if(gen_checkLengthLinkedList(lengthLinkedList))
+                {
+                    gen_checkReturnWithIf(controller_saveAsBinary("data.bin", listEmployees), "\t---------------------------\n\t|Guardado modo BIN exitoso!|\n\t---------------------------\n\n", "\n- Error. No se encontraron datos.\n");
+                }
+                break;
+            case 10:
+                ll_deleteLinkedList(listEmployees);
+                printf("\nSaliendo del programa.. Hasta luego!\n");
             }
+            system("pause");
+            system("cls");
         }
     }
     while(option != 10);

@@ -1,9 +1,10 @@
 
 #include "genericas.h"
+
 /** \brief Imprime el menu principal del programa
  *
- * \param option int* opcion elegida por el usuario
- * \return int Devuelve 1 opcion tomada exitosamente, caso contrario 0.
+ * \param option int* Puntero donde se guardara la opcion elegida
+ * \return int Devuelve [1] opcion tomada con exito, caso contrario [0].
  *
  */
 int gen_mainMenu(int* option)
@@ -11,7 +12,7 @@ int gen_mainMenu(int* option)
     int retorno = 0;
     if(option != NULL)
     {
-        printf(">> Bienvenido al menu principal<<\n");
+        printf(">> Bienvenido al menu principal <<\n");
         printf("\n1. Cargar los datos de los empleados desde el archivo data.csv (modo texto).");
         printf("\n2. Cargar los datos de los empleados desde el archivo data.csv (modo binario).");
         printf("\n3. Alta de empleado");
@@ -55,6 +56,12 @@ void gen_checkReturnWithIf(int function, char* msgAllRight, char* msgError)
         }
 }
 
+/** \brief Verifica el valor de addOk en base a eso imprime un mensaje
+ *
+ * \param addOk int Valor a evaluar
+ * \return void
+ *
+ */
 void gen_checkCorrectAdd(int addOk)
 {
   if(addOk > 0)
@@ -67,6 +74,12 @@ void gen_checkCorrectAdd(int addOk)
   }
 }
 
+/** \brief Verifica el tamaño de la lista en base a eso imprime un mensaje
+ *
+ * \param lengthLl int Tamaño de la lista
+ * \return int [0] Si la lista tiene un tamaño menor a 0, [1] Hay datos en la lista
+ *
+ */
 int gen_checkLengthLinkedList(int lengthLl)
 {
     int retorno = 0;
@@ -83,6 +96,13 @@ int gen_checkLengthLinkedList(int lengthLl)
     return retorno;
 }
 
+/** \brief Verifica si la lista fue cargada
+ *
+ * \param loadOk int Valor que indica si el listado fue cargado
+ * \param msgAllRight char* Mensaje a mostrar en caso de que el listado sea cargado exitosamente
+ * \return void
+ *
+ */
 void gen_checkCorrectLoadedOfEmployees(int loadOk, char* msgAllRight)
 {
     if(loadOk > 0)
