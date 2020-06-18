@@ -33,4 +33,5 @@ int employee_CompareByName(void* e1, void* e2);
 int employee_CompareById(void* e1, void* e2);
 int employee_CompareBySalary(void* employee1, void* employee2);
 int employee_CompareByHoursWorked(void* employee1, void* employee2);
+int employee_printOne(Employee* this);
 #endif // employee_H_INCLUDED

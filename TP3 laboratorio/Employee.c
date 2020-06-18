@@ -465,4 +465,25 @@ int employee_printArray(Employee* this,int lenght)
     return retorno;
 }
 
+int employee_printOne(Employee* this)
+{
+    int retorno=-1;
+    int auxId;
+    char auxName[NAME_LEN];
+    int auxHoursWorked;
+    float auxSalary;
 
+    if(this != NULL)
+    {
+        if(!employee_getId(this, &auxId)
+                && !employee_getName(this, auxName)
+                && !employee_getHoursWorked(this, &auxHoursWorked)
+                && !employee_getSalary(this, &auxSalary))
+        {
+            retorno = 0;
+            printf("  ---------------------------------------------------------\n");
+            printf("  | %4d |     %13s |     %8d   |  %.2f |\n", auxId,auxName,auxHoursWorked,auxSalary);
+        }
+    }
+    return retorno;
+}

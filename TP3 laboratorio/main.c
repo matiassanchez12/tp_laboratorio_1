@@ -9,6 +9,12 @@
 int main()
 {
     int option;
+    int i = 1;
+    int nodeIndex;
+    Node* pNode = NULL;
+    Node* nextNode = NULL;
+    Node* retorno = NULL;
+    Employee* auxEmployee;
     LinkedList* listEmployees = ll_newLinkedList();
     int lastId = 0;
     int lengthLinkedList;
@@ -32,13 +38,31 @@ int main()
                 gen_checkCorrectAdd(lastId);
                 break;
             case 4:
-                if(gen_checkLengthLinkedList(lengthLinkedList))
+                i = 1;
+                utn_getNumber(&nodeIndex, "\nIngresar un index: ", "a", 0, 22222, 3);
+                pNode = listEmployees->pFirstNode;
+                do
+                {
+                    if(i == nodeIndex)
+                    {
+                        retorno = pNode;
+                        auxEmployee = (Employee*)retorno->pElement;
+                        employee_printArray(auxEmployee, 2);
+                        break;
+                    }
+                    nextNode = pNode -> pNextNode;
+                    pNode = nextNode;
+                    i++;
+                }
+                while(nextNode != NULL);
+
+                /*if(gen_checkLengthLinkedList(lengthLinkedList))
                 {
                     system("cls");
                     printf("-------------------------------------------\n|Seccion para modificar datos de empleados|\n-------------------------------------------\n");
                     controller_ListEmployee(listEmployees);
                     gen_checkReturnWithSwitch(controller_editEmployee(listEmployees), "\t--------------------------------\n\t|Empleado modificado con exito!|\n\t--------------------------------\n\n", "\n- Operacion cancelada con exito!\n", "\n- No se encontro un empleado con ese ID!\n");
-                }
+                }*/
                 break;
             case 5:
                 if(gen_checkLengthLinkedList(lengthLinkedList))

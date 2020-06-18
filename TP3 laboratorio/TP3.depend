@@ -1,0 +1,55 @@
+# depslib dependency file v1.0
+1592098038 source:c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp3 laboratorio\controller.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LinkedList.h"
+	"Employee.h"
+	"parser.h"
+
+1591627340 c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp3 laboratorio\linkedlist.h
+
+1592336480 c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp3 laboratorio\employee.h
+	"utn.h"
+
+1591625830 c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp3 laboratorio\utn.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1561499216 c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp3 laboratorio\parser.h
+
+1592336479 source:c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp3 laboratorio\employee.c
+	<stdlib.h>
+	"Employee.h"
+	<string.h>
+
+1592095206 source:c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp3 laboratorio\genericas.c
+	"genericas.h"
+
+1592098512 c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp3 laboratorio\genericas.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"utn.h"
+
+1592094710 source:c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp3 laboratorio\parser.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"Employee.h"
+
+1591625830 source:c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp3 laboratorio\utn.c
+	"utn.h"
+
+1592496887 source:c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp3 laboratorio\main.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"Controller.h"
+	"Employee.h"
+	"utn.h"
+	"genericas.h"
+
+1591742347 c:\users\matukhan\desktop\tp 1 y 2 git\tp_laboratorio_1\tp3 laboratorio\controller.h
+
