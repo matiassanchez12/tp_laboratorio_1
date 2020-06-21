@@ -170,9 +170,9 @@ int sortEmployees(Employee* list, int len, int order)
                     {
                         flag = 1;
                         ret = 1;
-                        auxEmployee = list[i];
-                        list[i] = list[i+1];
-                        list[i+1] = auxEmployee;;
+                        auxEmployee = list[i]; /// EL AUX ES EL PRIMERO
+                        list[i] = list[i+1]; /// EL PRIMERO PASA A SER EL SEGUNDO
+                        list[i+1] = auxEmployee;; /// EL SEGUNDO PASA A SER EL PRIMERO
                     }
                     break;
                 case 0:
