@@ -9,7 +9,8 @@
 int main()
 {
     int option;
-    int i = 1;
+    Employee* pAux;
+    LinkedList* listEmployees2 = ll_newLinkedList();
     LinkedList* listEmployees = ll_newLinkedList();
     int lastId = 0;
     int lengthLinkedList;
@@ -33,7 +34,7 @@ int main()
                 gen_checkCorrectAdd(lastId);
                 break;
             case 4:
-               if(gen_checkLengthLinkedList(lengthLinkedList))
+                if(gen_checkLengthLinkedList(lengthLinkedList))
                 {
                     system("cls");
                     printf("-------------------------------------------\n|Seccion para modificar datos de empleados|\n-------------------------------------------\n");
@@ -75,13 +76,76 @@ int main()
                 }
                 break;
             case 10:
-                ll_deleteLinkedList(listEmployees);
+                if(!controller_deleteAllEmployees(listEmployees))
+                {
+                    printf("\nLista de empleados borrada con exito!\n");
+                }
+                break;
+            case 11:
+                if(!controller_deleteLinkedList(listEmployees))
+                {
+                    printf("\nLista enlazada borrada con exito!\n");
+                }
+                break;
+            case 12:
+                if(!controller_verifyListEmpty(listEmployees))
+                {
+                    printf("\nLa lista contiene elementos..\n");
+                }
+                break;
+            case 13:
+                if(controller_insertEmployeInRequiredPosition(listEmployees, lastId))
+                {
+                    printf("Empleado cargado con exito!");
+                }
+                break;
+            case 14:
+                pAux = (Employee*) controller_deleteEmployeeAndGetHimElement(listEmployees);
+                if(pAux != NULL)
+                {
+                    printf("\nElemento obtenido y empleado borrado con exito.\n");
+                }
+                break;
+            case 15:
+                if(!controller_verifyExistOfElement(listEmployees))
+                {
+                    printf("\nEl Id solicitado existe en la lista.\n");
+                }
+                break;
+                case 16:
+                if(ll_containsAll(listEmployees, listEmployees2) < 0)
+                {
+                    printf("\nLas 2 listas son identicas.\n");
+                }
+                else
+                {
+                    printf("\nLas listas son distintas\n");
+                }
+                break;
+                case 17:
+                listEmployees2 = controller_createCopieOfLinkedList(listEmployees);
+                if(listEmployees2 != NULL )
+                {
+                    controller_ListEmployee(listEmployees2);
+                    printf("\n Se copio la lista con exito.\n");
+                }
+                break;
+                case 18:
+                listEmployees2 = controller_createCloneOfLinkedList(listEmployees);
+                if(listEmployees2 != NULL )
+                {
+                    controller_ListEmployee(listEmployees2);
+                    printf("\n Se copio la lista con exito.\n");
+                }
+                break;
+            case 19:
                 printf("\nSaliendo del programa.. Hasta luego!\n");
+                break;
             }
             system("pause");
             system("cls");
         }
     }
-    while(option != 10);
+    while(option != 19);
     return 0;
 }
